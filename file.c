@@ -1,14 +1,13 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <unistd.h>
 #include <string.h>
 
 int main(int argc, char *argv[])
 {
-    char *fileName = "asda";
+    char *fileName = ".gitignore";
     int bufferSize = 8;
 
-    FILE *filePtr = fopen(".gitignore", "r");
+    FILE *filePtr = fopen(fileName, "r");
     if (filePtr == NULL)
     {
         printf("open file fial");
