@@ -15,22 +15,25 @@ int main(int argc, char *argv[])
         exit(0);
     }
 
-    char *fileContent = (char *)malloc(bufferSize + 1);
+    char *fileContent = (char *)malloc(bufferSize);
 
+    int readLength = 0;
     while (!feof(filePtr))
     {
-        int readLength = fread((char *)(fileContent + (strlen(fileContent))), bufferSize, 1, filePtr);
-        printf("buffer size:%d, read length:%d, content:%s\n", bufferSize, readLength, fileContent);
-        char *temp = fileContent;
-        if (feof(filePtr))
-        {
-            break;
-        }
+        int readCount = fread((char *)(fileContent + readLength), bufferSize, 1, filePtr);
+        printf("filrPtr:%p, buffer size:%d, read count:%d, content:%s\n", filePtr, bufferSize, readCount, fileContent);
 
-        fileContent = (char *)malloc(strlen(temp) + bufferSize + 1);
-        strcpy(fileContent, temp);
+        readLength = strlen(fileContent);
+        if (!feof(filePtr))
+        {
+            fileContent = realloc(fileContent, readLength + bufferSize);
+        }
     }
 
+    printf("file length: %d\n", readLength);
     printf("file data:\n%s\n", fileContent);
+
+    free(filePtr);
+
     return 0;
 }
